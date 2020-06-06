@@ -38,6 +38,6 @@ class MainActivity : AppCompatActivity() {
         SP.FLOAT_VALUE.put( -125.563f)
         Log.d(TAG, "FLOAT_VALUE " + SP.FLOAT_VALUE.get())
 
- 
+
     }
 }

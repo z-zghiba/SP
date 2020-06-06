@@ -9,8 +9,8 @@ enum class SP  constructor(private val type: Type) {
     IS_GOOD(Type.BOOLEAN),
     AGE(Type.INTEGER),
     FLOAT_VALUE(Type.FLOAT),
-    ID(Type.LONG),
-    MY_PHONES(Type.STRING_SET);
+    ID(Type.LONG);
+   // MY_PHONES(Type.STRING_SET);
 
 
 
