@@ -2,7 +2,7 @@
 Simple way to manage SharedPreferences for Android whith kotlin
 
 # Usage
-Create enum class which contains the attributes to manage  like this :
+Create an enum class which contains the attributes to manage  like this :
 
 
     enum class SP  constructor(private val type: Type) {
