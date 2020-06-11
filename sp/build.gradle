@@ -2,16 +2,24 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'maven-publish'
+ apply plugin: 'com.jfrog.bintray'
+
+
+version '1.0.1'
+group 'com.mrz'
+
+
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.3"
 
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -42,3 +50,56 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 }
+
+
+
+publishing {
+    publications {
+        Production(MavenPublication) {
+            artifact("$buildDir/outputs/aar/preference-release.aar")
+            groupId
+            artifactId 'preference'
+            version this.version
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+
+                // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included in the pom.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user =BINTRAY_USER
+    key = BINTRAY_API_KEY
+     configurations = ['archives']
+    override = true
+    pkg {
+
+        repo = 'maven'
+        name = 'library'
+        description = "Simple way to manage SharedPreferences for Android"
+        publish = false
+        publicDownloadNumbers = true
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/z-zghiba/SP'
+        dryRun = true
+        version {
+            name = this.version
+            desc = "Simple way to manage SharedPreferences for Android version ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+        }
+    }
+}
+
