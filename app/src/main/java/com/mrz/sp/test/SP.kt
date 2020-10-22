@@ -1,19 +1,16 @@
 package com.mrz.sp.test
 
 import com.mrz.sp.Preference
-import com.mrz.sp.core.Type
+import com.mrz.sp.core.Types
 
-enum class SP  constructor(private val type: Type) {
+enum class SP  constructor(private val type: Types) {
 
-    ENV(Type.STRING),
-    IS_GOOD(Type.BOOLEAN),
-    AGE(Type.INTEGER),
-    FLOAT_VALUE(Type.FLOAT),
-    ID(Type.LONG);
+    ENV(Types.StringType),
+    IS_GOOD(Types.BooleanType),
+    AGE(Types.IntegerType),
+    FLOAT_VALUE(Types.FloatType),
+    ID(Types.LongType);
    // MY_PHONES(Type.STRING_SET);
-
-
-
 
 
 

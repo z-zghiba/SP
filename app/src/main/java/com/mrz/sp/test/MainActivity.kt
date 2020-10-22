@@ -7,7 +7,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG = "PREF==>"
+    
+    private val TAG = "PREF==>"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
