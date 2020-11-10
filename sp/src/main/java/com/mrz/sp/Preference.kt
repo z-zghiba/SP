@@ -5,6 +5,7 @@ import android.content.ContextWrapper
 import android.content.SharedPreferences
 import com.mrz.sp.core.*
 import com.mrz.sp.core.annotation.CorePreference
+import kotlin.properties.ReadWriteProperty
 
 object Preference {
     val TAG = Preference.javaClass.name
@@ -32,26 +33,6 @@ object Preference {
         return editor
     }
 
-    fun edit(): SharedPreferences.Editor {
-        return getPreferences().edit()
-    }
-
-
-    operator fun get(key: String, type: Types): Any? {
-        return get(key, type, type.defaultValue())
-    }
-
-
-    operator fun get(key: String?, type: Types, defaultValue: Any): Any? {
-        val sp = getPreferences()
-        return type.get(sp, key, defaultValue)
-    }
-
-
-    fun put(key: String, type: Types, value: Any) {
-        type.put(getPreferences().edit(), key, value)
-
-    }
 
     fun init(context: Context?) {
         context?.let {
@@ -68,6 +49,49 @@ object Preference {
         context?.let {
             pref = context.getSharedPreferences(prefsName, mode)
         }
+    }
+
+
+    fun int(
+        key: String? = null,
+        defaultValue: Int = 0
+    ): ReadWriteProperty<Any, Int> {
+        return pref.delegate(key, SharedPreferences::getInt, SharedPreferences.Editor::putInt, defaultValue)
+    }
+
+    fun long(
+        key: String? = null,
+        defaultValue: Long = 0
+    ): ReadWriteProperty<Any, Long> {
+        return pref.delegate(key, SharedPreferences::getLong, SharedPreferences.Editor::putLong, defaultValue)
+    }
+
+    fun float(
+        key: String? = null,
+        defaultValue: Float = 0f
+    ): ReadWriteProperty<Any, Float> {
+        return pref.delegate(key, SharedPreferences::getFloat, SharedPreferences.Editor::putFloat, defaultValue)
+    }
+
+    fun boolean(
+        key: String? = null,
+        defaultValue: Boolean = false
+    ): ReadWriteProperty<Any, Boolean> {
+        return pref.delegate(key, SharedPreferences::getBoolean, SharedPreferences.Editor::putBoolean, defaultValue)
+    }
+
+    fun stringSet(
+        key: String? = null,
+        defaultValue: Set<String> = emptySet()
+    ): ReadWriteProperty<Any, Set<String>?> {
+        return pref.delegate(key, SharedPreferences::getStringSet, SharedPreferences.Editor::putStringSet, defaultValue)
+    }
+
+    fun string(
+        key: String? = null,
+        defaultValue: String = ""
+    ): ReadWriteProperty<Any, String?> {
+        return pref.delegate(key, SharedPreferences::getString, SharedPreferences.Editor::putString, defaultValue)
     }
 
 }

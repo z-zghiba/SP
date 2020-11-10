@@ -5,9 +5,20 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+    testOptions {
+        unitTests.all {
+            systemProperty 'robolectric.dependency.repo.url', 'https://local-mirror/repo'
+            systemProperty 'robolectric.dependency.repo.id', 'local'
+        }
+
+        unitTests {
+            includeAndroidResources = true
+
+        }
+    }
     defaultConfig {
         applicationId "com.mrz.sp.test"
-        minSdkVersion 15
+        minSdkVersion  21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -35,6 +46,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'androidx.test:core:1.0.0'
+    testImplementation 'org.robolectric:robolectric:4.2'
+
 
 
     implementation project(':sp')
