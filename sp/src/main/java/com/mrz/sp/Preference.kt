@@ -8,27 +8,22 @@ import com.mrz.sp.core.annotation.CorePreference
 import kotlin.properties.ReadWriteProperty
 
 object Preference {
-    val TAG = Preference.javaClass.name
 
     private lateinit var pref: SharedPreferences
 
     fun remove(key: String) {
-        val prefs = getPreferences()
-        val editor = prefs.edit()
+        val editor = pref.edit()
         editor.remove(key)
         editor.apply()
     }
 
-    private fun getPreferences(): SharedPreferences {
-        return pref
-    }
 
     operator fun contains(key: String): Boolean {
-        return getPreferences().contains(key)
+        return pref.contains(key)
     }
 
     fun clear(): SharedPreferences.Editor {
-        val editor = getPreferences().edit().clear()
+        val editor = pref.edit().clear()
         editor.apply()
         return editor
     }
@@ -41,7 +36,7 @@ object Preference {
             val prefsName = annotation.fileName
             val mode =
                 if (annotation.contextWrapper == -1) ContextWrapper.MODE_PRIVATE else annotation.contextWrapper
-            pref = context.getSharedPreferences(prefsName, mode)
+            init(context, prefsName, mode)
         }
     }
 
@@ -56,42 +51,72 @@ object Preference {
         key: String? = null,
         defaultValue: Int = 0
     ): ReadWriteProperty<Any, Int> {
-        return pref.delegate(key, SharedPreferences::getInt, SharedPreferences.Editor::putInt, defaultValue)
+        return pref.delegate(
+            key,
+            SharedPreferences::getInt,
+            SharedPreferences.Editor::putInt,
+            defaultValue
+        )
     }
 
     fun long(
         key: String? = null,
         defaultValue: Long = 0
     ): ReadWriteProperty<Any, Long> {
-        return pref.delegate(key, SharedPreferences::getLong, SharedPreferences.Editor::putLong, defaultValue)
+        return pref.delegate(
+            key,
+            SharedPreferences::getLong,
+            SharedPreferences.Editor::putLong,
+            defaultValue
+        )
     }
 
     fun float(
         key: String? = null,
         defaultValue: Float = 0f
     ): ReadWriteProperty<Any, Float> {
-        return pref.delegate(key, SharedPreferences::getFloat, SharedPreferences.Editor::putFloat, defaultValue)
+        return pref.delegate(
+            key,
+            SharedPreferences::getFloat,
+            SharedPreferences.Editor::putFloat,
+            defaultValue
+        )
     }
 
     fun boolean(
         key: String? = null,
         defaultValue: Boolean = false
     ): ReadWriteProperty<Any, Boolean> {
-        return pref.delegate(key, SharedPreferences::getBoolean, SharedPreferences.Editor::putBoolean, defaultValue)
+        return pref.delegate(
+            key,
+            SharedPreferences::getBoolean,
+            SharedPreferences.Editor::putBoolean,
+            defaultValue
+        )
     }
 
     fun stringSet(
         key: String? = null,
         defaultValue: Set<String> = emptySet()
     ): ReadWriteProperty<Any, Set<String>?> {
-        return pref.delegate(key, SharedPreferences::getStringSet, SharedPreferences.Editor::putStringSet, defaultValue)
+        return pref.delegate(
+            key,
+            SharedPreferences::getStringSet,
+            SharedPreferences.Editor::putStringSet,
+            defaultValue
+        )
     }
 
     fun string(
         key: String? = null,
         defaultValue: String = ""
     ): ReadWriteProperty<Any, String?> {
-        return pref.delegate(key, SharedPreferences::getString, SharedPreferences.Editor::putString, defaultValue)
+        return pref.delegate(
+            key,
+            SharedPreferences::getString,
+            SharedPreferences.Editor::putString,
+            defaultValue
+        )
     }
 
 }
