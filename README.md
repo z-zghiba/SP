@@ -1,4 +1,4 @@
-# SP
+# SP  (This project is no longer supported)
 Simple way to manage SharedPreferences for Android whith kotlin
 
 # Usage
